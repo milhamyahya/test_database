@@ -1,0 +1,122 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Install the latest PowerShell for new features and improvements! https://aka.ms/PSWindows
+
+PS C:\Users\Ilham Yahya> mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 213
+Server version: 10.4.28-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> USE db_kuliah
+Database changed
+MariaDB [db_kuliah]> SELECT * FROM mahasiswa
+    -> ;
++--------+-------+-----------------------+--------------------+------+
+| NIM    | nama  | alamat                | jurusan            | umur |
++--------+-------+-----------------------+--------------------+------+
+| 123456 | John  | Jl. Merdeka No. 1     | Teknik Informatika |   21 |
+| 234567 | Alice | Jl. Gatot Subroto     | Sistem Informasi   |   23 |
+| 345678 | Bob   | Jl. Sudirman No. 5    | Teknik Informatika |   20 |
+| 456789 | Cindy | Jl. Pahlawan No. 2    | Manajemen          |   22 |
+| 567890 | David | Jl. Diponegoro No. 3  | Teknik Elektro     |   25 |
+| 678901 | Emily | Jl. Cendrawasih No. 4 | Manajemen          |   24 |
+| 789012 | Frank | Jl. Ahmad Yani No. 6  | Teknik Informatika |   19 |
++--------+-------+-----------------------+--------------------+------+
+7 rows in set (0.001 sec)
+
+MariaDB [db_kuliah]> SELECT * FROM mata_kuliah;
++----+-------------------+--------+-------+----------------+
+| id | mata_kuliah       | NIM    | nilai | dosen_pengajar |
++----+-------------------+--------+-------+----------------+
+|  1 | Pemrograman Web   | 123456 | 85.00 | Pak Budi       |
+|  2 | Basis Data        | 234567 | 70.00 | Ibu Ani        |
+|  3 | Jaringan Komputer | 345678 | 75.00 | Pak Dodi       |
+|  4 | Sistem Operasi    | 123456 | 90.00 | Pak Budi       |
+|  5 | Manajemen Proyek  | 456789 | 80.00 | Ibu Desi       |
+|  6 | Bahasa Inggris    | 567890 | 85.00 | Ibu Eka        |
+|  7 | Statistika        | 678901 | 75.00 | Pak Farhan     |
+|  8 | Algoritma         | 789012 | 65.00 | Pak Galih      |
+|  9 | Pemrograman Java  | 123456 | 95.00 | Pak Budi       |
++----+-------------------+--------+-------+----------------+
+9 rows in set (0.001 sec)
+
+MariaDB [db_kuliah]> UPDATE mahasiswa
+    -> SET alamat = "Jl. Raya No. 5"
+    -> WHERE nim = "123456";
+Query OK, 1 row affected (0.146 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [db_kuliah]> SELECT * FROM mahasiswa;
++--------+-------+-----------------------+--------------------+------+
+| NIM    | nama  | alamat                | jurusan            | umur |
++--------+-------+-----------------------+--------------------+------+
+| 123456 | John  | Jl. Raya No. 5        | Teknik Informatika |   21 |
+| 234567 | Alice | Jl. Gatot Subroto     | Sistem Informasi   |   23 |
+| 345678 | Bob   | Jl. Sudirman No. 5    | Teknik Informatika |   20 |
+| 456789 | Cindy | Jl. Pahlawan No. 2    | Manajemen          |   22 |
+| 567890 | David | Jl. Diponegoro No. 3  | Teknik Elektro     |   25 |
+| 678901 | Emily | Jl. Cendrawasih No. 4 | Manajemen          |   24 |
+| 789012 | Frank | Jl. Ahmad Yani No. 6  | Teknik Informatika |   19 |
++--------+-------+-----------------------+--------------------+------+
+7 rows in set (0.000 sec)
+
+MariaDB [db_kuliah]> SELECT mhs.nim,
+    -> mhs.nama,
+    -> mhs.jurusan,
+    -> mk.dosen_pengajar FROM mahasiswa mhs
+    -> JOIN mata_kuliah mk
+    -> ON mhs.nim = mk.nim
+    -> WHERE mhs.jurusan = "Teknik Informatika";
++--------+-------+--------------------+----------------+
+| nim    | nama  | jurusan            | dosen_pengajar |
++--------+-------+--------------------+----------------+
+| 123456 | John  | Teknik Informatika | Pak Budi       |
+| 345678 | Bob   | Teknik Informatika | Pak Dodi       |
+| 123456 | John  | Teknik Informatika | Pak Budi       |
+| 789012 | Frank | Teknik Informatika | Pak Galih      |
+| 123456 | John  | Teknik Informatika | Pak Budi       |
++--------+-------+--------------------+----------------+
+5 rows in set (0.001 sec)
+
+MariaDB [db_kuliah]> SELECT nama, umur
+    -> FROM mahasiswa
+    -> ORDER BY umur DESC
+    -> LIMIT 5;
++-------+------+
+| nama  | umur |
++-------+------+
+| David |   25 |
+| Emily |   24 |
+| Alice |   23 |
+| Cindy |   22 |
+| John  |   21 |
++-------+------+
+5 rows in set (0.001 sec)
+
+MariaDB [db_kuliah]> SELECT mhs.nama,
+    -> mk.mata_kuliah,
+    -> mk.nilai
+    -> FROM mahasiswa mhs
+    -> JOIN mata_kuliah mk
+    -> ON mhs.nim = mk.nim
+    -> WHERE mk.nilai > 70;
++-------+-------------------+-------+
+| nama  | mata_kuliah       | nilai |
++-------+-------------------+-------+
+| John  | Pemrograman Web   | 85.00 |
+| Bob   | Jaringan Komputer | 75.00 |
+| John  | Sistem Operasi    | 90.00 |
+| Cindy | Manajemen Proyek  | 80.00 |
+| David | Bahasa Inggris    | 85.00 |
+| Emily | Statistika        | 75.00 |
+| John  | Pemrograman Java  | 95.00 |
++-------+-------------------+-------+
+7 rows in set (0.001 sec)
+
+MariaDB [db_kuliah]>
